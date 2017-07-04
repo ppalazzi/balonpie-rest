@@ -1,4 +1,4 @@
-package com.palazzisoft.balonpie.service.service;
+package com.palazzisoft.balonpie.service.service.impl;
 
 import static com.palazzisoft.balonpie.service.model.enumeration.EEstado.ACTIVO;
 
@@ -15,6 +15,7 @@ import com.palazzisoft.balonpie.service.dao.ParticipanteDao;
 import com.palazzisoft.balonpie.service.dto.ParticipanteDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
 import com.palazzisoft.balonpie.service.model.Participante;
+import com.palazzisoft.balonpie.service.service.ParticipanteService;
 
 @Service("participanteService")
 @Transactional

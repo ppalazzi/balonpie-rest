@@ -7,8 +7,6 @@ import javax.validation.constraints.NotNull;
 public class ParticipanteDto {
 
 	private Integer id;
-	
-	@NotNull
 	private String nombre;
 	private String apellido;
 	private String email;
