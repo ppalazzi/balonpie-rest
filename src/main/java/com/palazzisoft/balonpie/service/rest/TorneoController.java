@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
-import com.palazzisoft.balonpie.service.model.Torneo;
 import com.palazzisoft.balonpie.service.service.TorneoService;
 
 @RestController

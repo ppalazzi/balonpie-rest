@@ -12,18 +12,18 @@ import com.palazzisoft.balonpie.service.model.Torneo;
 @Repository("torneoDao")
 public class TorneoDaoImpl extends AbstractDao implements TorneoDao {
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Torneo> obtenerTorneosDeParticipante(Integer participanteId) {
-		Query<Torneo> query = getSession().createQuery("FROM Torneo t where t.participante.id = :participanteId and t.estado = 1");
-		query.setParameter("participanteId", participanteId);
-		
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Torneo> obtenerTorneosDeParticipante(Integer participanteId) {
+        Query<Torneo> query =
+                getSession().createQuery("FROM Torneo t where t.participante.id = :participanteId and t.estado = 1");
+        query.setParameter("participanteId", participanteId);
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
-	@Override
-	public void crearTorneo(Torneo torneo) {
-		this.persist(torneo);
-	}
+    @Override
+    public void crearTorneo(Torneo torneo) {
+        this.persist(torneo);
+    }
 }

@@ -6,7 +6,7 @@ public class RestServiceContextInitializer extends AbstractAnnotationConfigDispa
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { RestConfig.class };
+		return new Class[] { RestConfig.class, DatabaseConfig.class };
 	}
 
 	@Override
