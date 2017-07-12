@@ -1,7 +1,5 @@
 package com.palazzisoft.balonpie.service.model;
 
-
-
 import static com.google.common.collect.Sets.newHashSet;
 
 import java.io.Serializable;
@@ -23,8 +21,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "T_EQUIPO")

@@ -3,11 +3,11 @@ package com.palazzisoft.balonpie.service.service;
 import java.util.List;
 
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
-import com.palazzisoft.balonpie.service.model.Torneo;
+import com.palazzisoft.balonpie.service.exception.BalonpieException;
 
 public interface TorneoService {
 
-	List<TorneoDto> obtenerParticipantesPorTorneo(Integer participanteId);
+    List<TorneoDto> getTorneosByParticipante(Integer participanteId);
 
-	TorneoDto guardarTorneo(TorneoDto torneoDto);
+    TorneoDto createTorneo(TorneoDto torneoDto) throws BalonpieException;
 }

@@ -1,8 +1,10 @@
 package com.palazzisoft.balonpie.service.rest;
 
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 
@@ -13,10 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
+import com.palazzisoft.balonpie.service.exception.BalonpieException;
 import com.palazzisoft.balonpie.service.service.TorneoService;
 
 @RestController
@@ -31,7 +33,7 @@ public class TorneoController {
 	public ResponseEntity<List<TorneoDto>> torneosPorParticipante(final @PathVariable Integer participanteId) {
 		LOG.info("Trayendo torneo del participante {}", participanteId);
 
-		List<TorneoDto> torneos = torneoService.obtenerParticipantesPorTorneo(participanteId);
+		List<TorneoDto> torneos = torneoService.getTorneosByParticipante(participanteId);
 
 		if (torneos.isEmpty()) {
 			return new ResponseEntity<>(NO_CONTENT);
@@ -40,12 +42,17 @@ public class TorneoController {
 		return new ResponseEntity<List<TorneoDto>>(torneos, OK);
 	}
 
-	@RequestMapping(value = "/crearTorneo", method = RequestMethod.POST)
-	public ResponseEntity<TorneoDto> crearTorneo(@RequestBody TorneoDto torneoDto) {
+	@RequestMapping(value = "/crearTorneo", method = POST)
+	public ResponseEntity crearTorneo(@RequestBody TorneoDto torneoDto) {
 		LOG.info("Creando Torneo {}", torneoDto);
 
-		TorneoDto nuevoTorneo = torneoService.guardarTorneo(torneoDto);
+		TorneoDto nuevoTorneo;
+        try {
+            nuevoTorneo = torneoService.createTorneo(torneoDto);
+        } catch (BalonpieException e) {
+            return ResponseEntity.status(FORBIDDEN).body(e.getMessage());
+        }
 		
-		return new ResponseEntity<TorneoDto>(nuevoTorneo, OK);
+		return ResponseEntity.status(OK).body(nuevoTorneo);
 	}
 }

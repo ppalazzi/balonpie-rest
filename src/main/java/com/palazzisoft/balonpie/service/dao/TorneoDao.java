@@ -11,8 +11,10 @@ import com.palazzisoft.balonpie.service.model.Torneo;
  */
 public interface TorneoDao {
 
-	List<Torneo> obtenerTorneosDeParticipante(Integer participanteId);
+	List<Torneo> getTorneosByParticipante(Integer participanteId);
 
-	void crearTorneo(Torneo torneo);
+	void createTorneo(Torneo torneo);
+
+    boolean isDescripcionAvailable(String descripcion);
 
 }

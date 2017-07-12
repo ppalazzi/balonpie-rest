@@ -18,7 +18,6 @@ import com.palazzisoft.balonpie.service.config.DatabaseConfig;
 import com.palazzisoft.balonpie.service.config.RestConfig;
 import com.palazzisoft.balonpie.service.model.Participante;
 import com.palazzisoft.balonpie.service.model.Torneo;
-import com.palazzisoft.balonpie.service.model.enumeration.EEstado;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DatabaseConfig.class, RestConfig.class })
@@ -42,9 +41,9 @@ public class TorneoDaoTest {
         torneo.setEstado(ACTIVO.getEstado());
         torneo.setParticipante(participante);
         
-        torneoDao.crearTorneo(torneo);
+        torneoDao.createTorneo(torneo);
         
-        List<Torneo> torneos = torneoDao.obtenerTorneosDeParticipante(participante.getId());
+        List<Torneo> torneos = torneoDao.getTorneosByParticipante(participante.getId());
         
         assertEquals(1, torneos.size());
         assertEquals(participante.getId(), torneos.get(0).getParticipante().getId());
