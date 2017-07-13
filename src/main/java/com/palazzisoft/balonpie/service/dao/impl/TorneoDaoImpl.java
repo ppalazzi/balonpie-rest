@@ -38,7 +38,7 @@ public class TorneoDaoImpl extends AbstractDao implements TorneoDao {
     }
 
     @Override
-    public void createTorneo(Torneo torneo) {
+    public void saveTorneo(Torneo torneo) {
         this.persist(torneo);
     }
 }

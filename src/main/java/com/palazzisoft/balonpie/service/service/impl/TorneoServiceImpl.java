@@ -75,7 +75,7 @@ public class TorneoServiceImpl implements TorneoService {
         // TODO Crear los equipos rivales con sus jugadores randomizados
 
         equipoDao.saveEquipo(torneo.getEquipos().get(0));
-        torneoDao.createTorneo(torneo);
+        torneoDao.saveTorneo(torneo);
 
         return mapper.map(torneo, TorneoDto.class);
     }

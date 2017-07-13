@@ -13,7 +13,7 @@ public interface TorneoDao {
 
 	List<Torneo> getTorneosByParticipante(Integer participanteId);
 
-	void createTorneo(Torneo torneo);
+	void saveTorneo(Torneo torneo);
 
     boolean isDescripcionAvailable(String descripcion);
 

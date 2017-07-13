@@ -8,9 +8,9 @@ import com.palazzisoft.balonpie.service.model.Participante;
 
 public interface ParticipanteService {
 
-	ParticipanteDto saveParticipante(ParticipanteDto participante) throws BalonpieException;
-	
-	Participante retrieveParticipante(Integer id);
+    ParticipanteDto saveParticipante(ParticipanteDto participante) throws BalonpieException;
 
-	Optional<ParticipanteDto> getParticipanteByCredentials(String user, String password);		
+    Participante retrieveParticipante(Integer id);
+
+    Optional<ParticipanteDto> getParticipanteByCredentials(String user, String password);
 }

@@ -41,7 +41,7 @@ public class TorneoDaoTest {
         torneo.setEstado(ACTIVO.getEstado());
         torneo.setParticipante(participante);
         
-        torneoDao.createTorneo(torneo);
+        torneoDao.saveTorneo(torneo);
         
         List<Torneo> torneos = torneoDao.getTorneosByParticipante(participante.getId());
         
