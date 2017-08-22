@@ -99,7 +99,7 @@ public class TorneoServiceImpl implements TorneoService {
     }
 
     private void setInitialDataToTorneo(Torneo torneo) {
-        torneo.setEstado(EEstado.ACTIVO.getEstado());
+        torneo.setEstado(ACTIVO.getEstado());
 
         Calendar calendar = Calendar.getInstance();
         torneo.setFechaCreacion(calendar.getTime());
@@ -119,4 +119,5 @@ public class TorneoServiceImpl implements TorneoService {
             equipo.setEstado(ACTIVO.getEstado());
         }
     }
+     
 }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.palazzisoft.balonpie.service.dao.EquipoDao;
-import com.palazzisoft.balonpie.service.dto.EquipoDto;
 import com.palazzisoft.balonpie.service.model.Equipo;
 import com.palazzisoft.balonpie.service.service.EquipoService;
 
@@ -13,12 +12,12 @@ import com.palazzisoft.balonpie.service.service.EquipoService;
 @Transactional
 public class EquipoServiceImpl implements EquipoService {
 
-    @Autowired
-    private EquipoDao equipoDao;
+	@Autowired
+	private EquipoDao equipoDao;
 
-    @Override
-    public void saveEquipo(Equipo equipo) {
-        equipoDao.saveEquipo(equipo);
-    }
+	@Override
+	public void saveEquipo(Equipo equipo) {
+		equipoDao.saveEquipo(equipo);
+	}
 
 }

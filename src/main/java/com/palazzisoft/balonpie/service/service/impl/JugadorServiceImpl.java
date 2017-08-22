@@ -2,6 +2,8 @@ package com.palazzisoft.balonpie.service.service.impl;
 
 import static com.palazzisoft.balonpie.service.model.enumeration.EEstado.ACTIVO;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.palazzisoft.balonpie.service.dao.JugadorDao;
 import com.palazzisoft.balonpie.service.dto.JugadorDto;
 import com.palazzisoft.balonpie.service.model.Jugador;
-import com.palazzisoft.balonpie.service.model.enumeration.EEstado;
 import com.palazzisoft.balonpie.service.service.JugadorService;
 
 @Service("jugadorService")
@@ -37,4 +38,10 @@ public class JugadorServiceImpl implements JugadorService {
         
         return mapper.map(jugadorEntity, JugadorDto.class);
     }
+
+	@Override
+	public List<Jugador> getJugadorByType(Integer type) {
+		LOG.info("Trayendo todos los jugadores del tipo {}", type);
+		return jugadorDao.getJugadoresByType(type);
+	}
 }
