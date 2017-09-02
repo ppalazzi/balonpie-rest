@@ -1,5 +1,6 @@
 package com.palazzisoft.balonpie.service.service.impl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +14,29 @@ import com.palazzisoft.balonpie.service.service.EquipoService;
 @Transactional
 public class EquipoServiceImpl implements EquipoService {
 
-    @Autowired
-    private EquipoDao equipoDao;
+	@Autowired
+	private EquipoDao equipoDao;
 
-    @Override
-    public void saveEquipo(Equipo equipo) {
-        equipoDao.saveEquipo(equipo);
-    }
+    @Autowired
+    private ModelMapper mapper;	
+	
+    // TODO Remover este metodo, deberia recibir un dto y no un entity puro
+	@Override
+	public void saveEquipo(Equipo equipo) {
+		equipoDao.saveEquipo(equipo);
+	}
+	
+	@Override
+	public void saveEquipo(EquipoDto equipoDto) {
+		Equipo equipo = mapper.map(equipoDto, Equipo.class);
+		equipoDao.saveEquipo(equipo);
+		mapper.map(equipo, equipoDto);
+	}
+
+	@Override
+	public EquipoDto getEquipoById(Integer id) {
+		Equipo equipo = equipoDao.findById(id);		
+		return mapper.map(equipo, EquipoDto.class);		
+	}
 
 }

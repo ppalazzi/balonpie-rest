@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 
-import org.h2.util.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 
 import com.palazzisoft.balonpie.service.dto.JugadorDto;
@@ -29,7 +29,7 @@ public class CreateJugadoresAutomaticProcess {
 		FileWriter fw = null;
 
 		try {
-			fw = new FileWriter("/home/pablo/source/BalonpieService/data/convertcsv.sql");
+			fw = new FileWriter("/home/pablo/source/BalonpieService/data/convertcsv-new.sql");
 			List<String> lines = Files.readAllLines(Paths.get(fileName));
 
 			int i = 0;
@@ -40,13 +40,13 @@ public class CreateJugadoresAutomaticProcess {
 				if (i < 299) {
 					createArqueros(split, fw);
 				}
-				if (i > 299 && i < 1333) {
+				if (i >= 299 && i < 1333) {
 					createDefensas(split, fw);
 				}
-				if (i > 1333 && i < 2066) {
-					createDefensas(split, fw);
+				if (i >= 1333 && i < 2066) {
+					createMediocampo(split, fw);
 				}
-				if (i > 2066) {
+				if (i >= 2066) {
 					createAtacantes(split, fw);
 				}
 				
@@ -57,7 +57,7 @@ public class CreateJugadoresAutomaticProcess {
 			e.printStackTrace();
 		}
 		finally {
-			IOUtils.closeSilently(fw);
+			IOUtils.closeQuietly(fw);
 		}
 	}
 
@@ -75,7 +75,6 @@ public class CreateJugadoresAutomaticProcess {
 		builder.append(INSERT);
 		builder.append("(").append(surname).append(COMMA)
 		.append(EEstado.ACTIVO.getEstado()).append(COMMA)
-		.append("'" + randomYear() + "-" + randomMonth() + "-" + randomDay() + "'").append(COMMA)
 		.append(jugador.getFisico()).append(COMMA)
 		.append(jugador.getHabilidad()).append(COMMA)
 		.append(name).append(COMMA)
@@ -104,14 +103,13 @@ public class CreateJugadoresAutomaticProcess {
 		builder.append(INSERT);
 		builder.append("(").append(surname).append(COMMA)
 		.append(EEstado.ACTIVO.getEstado()).append(COMMA)
-		.append("'" + randomYear() + "-" + randomMonth() + "-" + randomDay() + "'").append(COMMA)
 		.append(jugador.getFisico()).append(COMMA)
 		.append(jugador.getHabilidad()).append(COMMA)
 		.append(name).append(COMMA)
 		.append(jugador.getRemate()).append(COMMA)
 		.append(jugador.calculateValor()).append(COMMA)
 		.append(jugador.getVelocidad()).append(COMMA)
-		.append(3).append(");");
+		.append(2).append(");");
 		
 		LOG.info(builder.toString());
 		System.out.println(builder.toString());
@@ -132,7 +130,6 @@ public class CreateJugadoresAutomaticProcess {
 		builder.append(INSERT);
 		builder.append("(").append(surname).append(COMMA)
 		.append(EEstado.ACTIVO.getEstado()).append(COMMA)
-		.append("'" + randomYear() + "-" + randomMonth() + "-" + randomDay() + "'").append(COMMA)
 		.append(jugador.getFisico()).append(COMMA)
 		.append(jugador.getHabilidad()).append(COMMA)
 		.append(name).append(COMMA)
@@ -160,7 +157,6 @@ public class CreateJugadoresAutomaticProcess {
 		builder.append(INSERT);
 		builder.append("(").append(surname).append(COMMA)
 		.append(EEstado.ACTIVO.getEstado()).append(COMMA)
-		.append("'" + randomYear() + "-" + randomMonth() + "-" + randomDay() + "'").append(COMMA)
 		.append(jugador.getFisico()).append(COMMA)
 		.append(jugador.getHabilidad()).append(COMMA)
 		.append(name).append(COMMA)

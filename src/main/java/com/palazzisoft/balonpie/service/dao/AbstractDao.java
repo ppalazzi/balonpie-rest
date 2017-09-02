@@ -12,7 +12,7 @@ public class AbstractDao {
 	protected Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-	
+
 	public void persist(Object entity) {
 		getSession().persist(entity);
 	}
@@ -20,8 +20,9 @@ public class AbstractDao {
 	public void delete(Object entity) {
 		getSession().delete(entity);
 	}
-	
+
 	public void saveOrUpdate(Object entity) {
 		getSession().saveOrUpdate(entity);
 	}
+
 }

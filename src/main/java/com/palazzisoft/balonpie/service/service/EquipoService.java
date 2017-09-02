@@ -6,4 +6,8 @@ import com.palazzisoft.balonpie.service.model.Equipo;
 public interface EquipoService {
 
     void saveEquipo(Equipo equipo);
+    
+    EquipoDto getEquipoById(Integer id);
+
+    void saveEquipo(EquipoDto equipoDto);
 }

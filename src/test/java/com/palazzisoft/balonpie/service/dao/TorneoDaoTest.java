@@ -30,7 +30,7 @@ public class TorneoDaoTest {
     
     @Autowired
     private ParticipanteDao participanteDao;
-    
+
     @Test
     public void createTorneo() {
         Participante participante  = new Participante();
@@ -40,7 +40,7 @@ public class TorneoDaoTest {
         torneo.setDescripcion("Carlitos");
         torneo.setEstado(ACTIVO.getEstado());
         torneo.setParticipante(participante);
-        
+                
         torneoDao.saveTorneo(torneo);
         
         List<Torneo> torneos = torneoDao.getTorneosByParticipante(participante.getId());

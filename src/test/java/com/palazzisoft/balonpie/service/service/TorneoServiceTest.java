@@ -13,6 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -26,6 +29,9 @@ import com.palazzisoft.balonpie.service.exception.BalonpieException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { RestConfig.class })
 @WebAppConfiguration
+@SqlGroup({
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:convertcsv-new.sql")})
+
 public class TorneoServiceTest {
 
     @Autowired
@@ -65,7 +71,7 @@ public class TorneoServiceTest {
         assertNotNull(torneoExpected.getFechaInicio());
 
         // checking main equipo creation
-        assertEquals(torneo.getEquipos().size(), torneoExpected.getEquipos().size());
+        assertEquals(10, torneoExpected.getEquipos().size());
         EquipoDto equipoExpected = torneoExpected.getEquipos().get(0);
         assertEquals(torneo.getEquipos().get(0).getDescripcion(), equipoExpected.getDescripcion());
         assertNotNull(equipoExpected.getDescripcion());
