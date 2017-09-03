@@ -44,6 +44,6 @@ public class EquipoServiceTest {
 
 		equipoService.saveEquipo(equipo);
 		
-		assertEquals(equipo.getJugadores(), 1);
+		assertEquals(equipo.getJugadores().size(), 1);
 	}
 }

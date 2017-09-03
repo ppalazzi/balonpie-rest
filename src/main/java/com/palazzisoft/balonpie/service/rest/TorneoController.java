@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
+import com.palazzisoft.balonpie.service.model.Fixture;
 import com.palazzisoft.balonpie.service.service.TorneoService;
 
 @RestController
@@ -30,7 +31,7 @@ public class TorneoController {
 	private Logger LOG = LoggerFactory.getLogger(TorneoController.class);
 
 	@RequestMapping(value = "/torneo/{participanteId}", method = GET)
-	public ResponseEntity<List<TorneoDto>> torneosPorParticipante(final @PathVariable Integer participanteId) {
+	public ResponseEntity<List<TorneoDto>> torneosByParticipante(final @PathVariable Integer participanteId) {
 		LOG.info("Trayendo torneo del participante {}", participanteId);
 
 		List<TorneoDto> torneos = torneoService.getTorneosByParticipante(participanteId);
@@ -43,7 +44,7 @@ public class TorneoController {
 	}
 
 	@RequestMapping(value = "/crearTorneo", method = POST)
-	public ResponseEntity crearTorneo(@RequestBody TorneoDto torneoDto) {
+	public ResponseEntity createTorneo(@RequestBody TorneoDto torneoDto) {
 		LOG.info("Creando Torneo {}", torneoDto);
 
 		TorneoDto nuevoTorneo;
@@ -54,5 +55,9 @@ public class TorneoController {
         }
 		
 		return ResponseEntity.status(OK).body(nuevoTorneo);
+	}
+	
+	public Fixture startUpTorneo(Integer torneoId) {
+		return null;
 	}
 }
