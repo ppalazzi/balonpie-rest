@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,15 +37,23 @@ public class JugadorDaoTest {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	private Session session;
+	
 	@Before
 	public void setup() {
-		Session session = sessionFactory.getCurrentSession();
+		session = sessionFactory.getCurrentSession();
 		
 		TipoJugador tipoJugador = new TipoJugador();
 		tipoJugador.setId(0);
 		tipoJugador.setDescripcion("Arquero");
 		
 		session.persist(tipoJugador);
+	}
+	
+	@After
+	public void tearDown() {
+		session.close();
+		sessionFactory.close();
 	}
 	
 	@Test

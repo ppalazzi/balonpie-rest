@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.palazzisoft.balonpie.service.dto.FixtureDto;
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
 import com.palazzisoft.balonpie.service.service.TorneoService;
@@ -30,7 +31,7 @@ public class TorneoController {
 	private Logger LOG = LoggerFactory.getLogger(TorneoController.class);
 
 	@RequestMapping(value = "/torneo/{participanteId}", method = GET)
-	public ResponseEntity<List<TorneoDto>> torneosPorParticipante(final @PathVariable Integer participanteId) {
+	public ResponseEntity<List<TorneoDto>> torneosByParticipante(final @PathVariable Integer participanteId) {
 		LOG.info("Trayendo torneo del participante {}", participanteId);
 
 		List<TorneoDto> torneos = torneoService.getTorneosByParticipante(participanteId);
@@ -43,16 +44,28 @@ public class TorneoController {
 	}
 
 	@RequestMapping(value = "/crearTorneo", method = POST)
-	public ResponseEntity crearTorneo(@RequestBody TorneoDto torneoDto) {
+	public ResponseEntity createTorneo(@RequestBody TorneoDto torneoDto) {
 		LOG.info("Creando Torneo {}", torneoDto);
 
 		TorneoDto nuevoTorneo;
-        try {
-            nuevoTorneo = torneoService.createTorneo(torneoDto);
-        } catch (BalonpieException e) {
-            return ResponseEntity.status(FORBIDDEN).body(e.getMessage());
-        }
-		
+		try {
+			nuevoTorneo = torneoService.createTorneo(torneoDto);
+		} catch (BalonpieException e) {
+			return ResponseEntity.status(FORBIDDEN).body(e.getMessage());
+		}
+
 		return ResponseEntity.status(OK).body(nuevoTorneo);
+	}
+
+	@RequestMapping(value = "/arrancarTorneo/{torneoId}", method = GET)
+	public ResponseEntity<FixtureDto> startUpTorneo(@PathVariable Integer torneoId) {
+		LOG.info("Generando el fixture para el torneo {}", torneoId);
+
+		FixtureDto fixture = torneoService.getFixtureByTorneo(torneoId);
+		if (fixture == null) {
+			return new ResponseEntity<>(NO_CONTENT);
+		}
+
+		return ResponseEntity.status(OK).body(fixture);
 	}
 }

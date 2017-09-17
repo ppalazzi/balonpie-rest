@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.palazzisoft.balonpie.service.dao.AbstractDao;
 import com.palazzisoft.balonpie.service.dao.EquipoDao;
-import com.palazzisoft.balonpie.service.dto.EquipoDto;
 import com.palazzisoft.balonpie.service.model.Equipo;
 
 @Repository("equipoDao")

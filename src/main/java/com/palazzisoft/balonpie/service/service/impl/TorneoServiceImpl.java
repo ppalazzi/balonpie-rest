@@ -21,10 +21,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.palazzisoft.balonpie.service.dao.EquipoDao;
+import com.palazzisoft.balonpie.service.dao.FixtureDao;
 import com.palazzisoft.balonpie.service.dao.TorneoDao;
+import com.palazzisoft.balonpie.service.dto.FixtureDto;
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
+import com.palazzisoft.balonpie.service.factory.FixtureFactory;
 import com.palazzisoft.balonpie.service.model.Equipo;
+import com.palazzisoft.balonpie.service.model.Fixture;
 import com.palazzisoft.balonpie.service.model.Torneo;
 import com.palazzisoft.balonpie.service.service.TorneoService;
 
@@ -40,6 +44,9 @@ public class TorneoServiceImpl implements TorneoService {
 	@Autowired
 	private EquipoDao equipoDao;
 
+	@Autowired
+	private FixtureDao fixtureDao;
+	
 	@Autowired
 	private ModelMapper mapper;
 
@@ -79,7 +86,18 @@ public class TorneoServiceImpl implements TorneoService {
 
 		return mapper.map(torneo, TorneoDto.class);
 	}
-
+	
+	@Override
+	public FixtureDto getFixtureByTorneo(Integer torneoId) {
+		Torneo torneo = this.torneoDao.findById(torneoId);
+		List<Equipo> equipos = torneo.getEquipos();
+		
+		Fixture fixture = FixtureFactory.crearFixture(equipos);
+		fixtureDao.saveFixture(fixture);
+		
+		return mapper.map(fixture, FixtureDto.class);
+	}
+	
 	private List<Equipo> getAvailableEquiposSortedWithCount(Torneo torneo) {
 		setInitialDataToTorneo(torneo);
 		setInitialDataToEquipo(torneo);

@@ -16,29 +16,35 @@ import com.palazzisoft.balonpie.service.model.Torneo;
 @Repository("torneoDao")
 public class TorneoDaoImpl extends AbstractDao implements TorneoDao {
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Torneo> getTorneosByParticipante(Integer participanteId) {
-        Query<Torneo> query =
-                getSession().createQuery("FROM Torneo t where t.participante.id = :participanteId and t.estado = 1");
-        query.setParameter("participanteId", participanteId);
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Torneo> getTorneosByParticipante(Integer participanteId) {
+		Query<Torneo> query = getSession()
+				.createQuery("FROM Torneo t where t.participante.id = :participanteId and t.estado = 1");
+		query.setParameter("participanteId", participanteId);
 
-        return query.getResultList();
-    }
+		return query.getResultList();
+	}
 
-    @Override
-    public boolean isDescripcionAvailable(String descripcion) {
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<Torneo> query = builder.createQuery(Torneo.class);
+	@Override
+	public boolean isDescripcionAvailable(String descripcion) {
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Torneo> query = builder.createQuery(Torneo.class);
 
-        Root<Torneo> root = query.from(Torneo.class);
-        query.select(root).where(builder.equal(root.get("descripcion"), descripcion));
+		Root<Torneo> root = query.from(Torneo.class);
+		query.select(root).where(builder.equal(root.get("descripcion"), descripcion));
 
-        return getSession().createQuery(query).uniqueResultOptional().isPresent();
-    }
+		return getSession().createQuery(query).uniqueResultOptional().isPresent();
+	}
 
-    @Override
-    public void saveTorneo(Torneo torneo) {
-        this.persist(torneo);
-    }
+	@Override
+	public void saveTorneo(Torneo torneo) {
+		this.persist(torneo);
+	}
+
+	@Override
+	public Torneo findById(Integer torneoId) {
+		Torneo torneo = getSession().find(Torneo.class, torneoId);
+		return torneo;
+	}
 }

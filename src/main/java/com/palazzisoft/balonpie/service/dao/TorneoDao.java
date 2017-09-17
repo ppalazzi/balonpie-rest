@@ -15,6 +15,7 @@ public interface TorneoDao {
 
 	void saveTorneo(Torneo torneo);
 
-    boolean isDescripcionAvailable(String descripcion);
+	boolean isDescripcionAvailable(String descripcion);
 
+	Torneo findById(Integer torneoId);
 }

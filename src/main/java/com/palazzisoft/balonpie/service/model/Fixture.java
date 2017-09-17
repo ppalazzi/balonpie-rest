@@ -16,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.google.common.collect.Lists;
-
 @Entity
 @Table(name = "T_FIXTURE")
 public class Fixture implements Serializable {
