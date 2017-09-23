@@ -1,6 +1,7 @@
 package com.palazzisoft.balonpie.service.model;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static javax.persistence.FetchType.EAGER;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,30 +16,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.google.common.collect.Lists;
-
 @Entity
 @Table(name = "T_FECHA")
 public class Fecha implements Serializable {
-	
+
 	private static final long serialVersionUID = 4372305609859171450L;
-	
+
 	public Fecha() {
 		this.partidos = newArrayList();
 	}
-	
+
 	@Id
 	@Column(name = "F_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;	
-	
-	@ManyToOne (fetch=FetchType.EAGER)
+	private Integer id;
+
+	@ManyToOne(fetch = EAGER)
 	private Fixture fixture;
-	
+
 	@Column(name = "A_NUMERO")
 	private Integer numero;
-	
-	@OneToMany(mappedBy = "fecha", cascade = {CascadeType.ALL})	
+
+	@OneToMany(mappedBy = "fecha", cascade = { CascadeType.ALL }, fetch = EAGER)
 	private List<Partido> partidos;
 
 	public Integer getId() {
@@ -73,8 +71,18 @@ public class Fecha implements Serializable {
 	public void setPartidos(List<Partido> partidos) {
 		this.partidos = partidos;
 	}
-		
+
 	public void agregarPartido(Partido partido) {
 		this.partidos.add(partido);
+	}
+
+	public boolean isFechaPlayed() {
+		boolean isPlayed = true;
+
+		for (Partido partido : getPartidos()) {
+			isPlayed = isPlayed && partido.isJugado();
+		}
+
+		return isPlayed;
 	}
 }

@@ -7,6 +7,8 @@ public class PartidoDto {
 	private EquipoDto visitante;
 	private int golesLocal;
 	private int golesVisitante;
+	private boolean estado;
+	private boolean jugado;
 
 	public Integer getId() {
 		return id;
@@ -46,5 +48,21 @@ public class PartidoDto {
 
 	public void setGolesVisitante(int golesVisitante) {
 		this.golesVisitante = golesVisitante;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	public boolean isJugado() {
+		return jugado;
+	}
+
+	public void setJugado(boolean jugado) {
+		this.jugado = jugado;
 	}
 }
