@@ -65,4 +65,16 @@ public class PartidoDto {
 	public void setJugado(boolean jugado) {
 		this.jugado = jugado;
 	}
+
+	public int getGolesFromEquipo(EquipoDto equipoDto) {
+		if (!equipoDto.equals(local) || !equipoDto.equals(visitante)) {
+			throw new IllegalArgumentException("El equipo no Participó del Partido");
+		}
+
+		if (equipoDto.equals(local)) {
+			return golesLocal;
+		} else {
+			return golesVisitante;
+		}
+	}
 }

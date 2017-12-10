@@ -46,7 +46,7 @@ public class TorneoServiceImpl implements TorneoService {
 
 	@Autowired
 	private FixtureDao fixtureDao;
-	
+
 	@Autowired
 	private ModelMapper mapper;
 
@@ -86,18 +86,24 @@ public class TorneoServiceImpl implements TorneoService {
 
 		return mapper.map(torneo, TorneoDto.class);
 	}
-	
+
 	@Override
-	public FixtureDto getFixtureByTorneo(Integer torneoId) {
+	public FixtureDto buildFixtureByTorneo(Integer torneoId) {
 		Torneo torneo = this.torneoDao.findById(torneoId);
 		List<Equipo> equipos = torneo.getEquipos();
-		
+
 		Fixture fixture = FixtureFactory.crearFixture(equipos);
 		fixtureDao.saveFixture(fixture);
-		
+
 		return mapper.map(fixture, FixtureDto.class);
 	}
-	
+
+	@Override
+	public TorneoDto getTorneoById(Integer torneoId) {
+		Torneo torneo = torneoDao.findById(torneoId);
+		return mapper.map(torneo, TorneoDto.class);
+	}
+
 	private List<Equipo> getAvailableEquiposSortedWithCount(Torneo torneo) {
 		setInitialDataToTorneo(torneo);
 		setInitialDataToEquipo(torneo);

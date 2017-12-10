@@ -91,7 +91,7 @@ public class TorneoServiceTest {
 	}
 
 	private void assertFixture(TorneoDto torneoExpected) {
-		FixtureDto fixture = torneoService.getFixtureByTorneo(torneoExpected.getId());
+		FixtureDto fixture = torneoService.buildFixtureByTorneo(torneoExpected.getId());
 
 		assertNotNull(fixture);
 		assertNotNull(fixture.getId());

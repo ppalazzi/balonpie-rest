@@ -8,9 +8,11 @@ import com.palazzisoft.balonpie.service.exception.BalonpieException;
 
 public interface TorneoService {
 
-    List<TorneoDto> getTorneosByParticipante(Integer participanteId);
+	List<TorneoDto> getTorneosByParticipante(Integer participanteId);
 
-    TorneoDto createTorneo(TorneoDto torneoDto) throws BalonpieException;
+	TorneoDto createTorneo(TorneoDto torneoDto) throws BalonpieException;
 
-	FixtureDto getFixtureByTorneo(Integer torneoId);
+	FixtureDto buildFixtureByTorneo(Integer torneoId);
+
+	TorneoDto getTorneoById(Integer id);
 }

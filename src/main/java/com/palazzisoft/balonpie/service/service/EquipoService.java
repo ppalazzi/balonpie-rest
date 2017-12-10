@@ -5,9 +5,14 @@ import com.palazzisoft.balonpie.service.model.Equipo;
 
 public interface EquipoService {
 
-    void saveEquipo(Equipo equipo);
-    
-    EquipoDto getEquipoById(Integer id);
+	void saveEquipo(Equipo equipo);
 
-    void saveEquipo(EquipoDto equipoDto);
+	EquipoDto getEquipoById(Integer id);
+
+	EquipoDto saveEquipo(EquipoDto equipoDto);
+
+	/**
+	 * Si el presupuesto lo permite, vende el jugador original y compra el nuevo 
+	 */
+	EquipoDto replaceJugador(Integer equipoDto, Integer idJugadorOriginal, Integer idJugadorNuevo);
 }

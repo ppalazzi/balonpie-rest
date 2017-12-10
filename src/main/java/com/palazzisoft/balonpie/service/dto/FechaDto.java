@@ -32,4 +32,33 @@ public class FechaDto {
 		this.partidos = partidos;
 	}
 
+	public int getGolesAchievedFromEquipo(EquipoDto equipoDto) {
+		int goles = 0;
+
+		for (PartidoDto partido : this.getPartidos()) {
+			if (partido.getLocal().equals(equipoDto)) {
+				goles = goles + partido.getGolesLocal();
+			}
+			if (partido.getVisitante().equals(equipoDto)) {
+				goles = goles + partido.getGolesVisitante();
+			}
+		}
+
+		return goles;
+	}
+
+	public int getGolesReceivedFromEquipo(EquipoDto equipoDto) {
+		int goles = 0;
+
+		for (PartidoDto partido : this.getPartidos()) {
+			if (partido.getLocal().equals(equipoDto)) {
+				goles = goles + partido.getGolesVisitante();
+			}
+			if (partido.getVisitante().equals(equipoDto)) {
+				goles = goles + partido.getGolesLocal();
+			}
+		}
+
+		return goles;
+	}
 }

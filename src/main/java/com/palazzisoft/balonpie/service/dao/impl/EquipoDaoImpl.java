@@ -29,4 +29,9 @@ public class EquipoDaoImpl extends AbstractDao implements EquipoDao {
 	public Equipo findById(Integer id) {
 		return getSession().find(Equipo.class, id);
 	}
+
+	@Override
+	public void mergeEquipo(Equipo equipo) {
+		merge(equipo);
+	}
 }

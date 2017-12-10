@@ -5,86 +5,94 @@ import java.util.Set;
 
 public class EquipoDto {
 
-    private Integer id;
-    private String nombre;
-    private String descripcion;
-    private Date fechaCreacion;
-    private Integer estado;
-    private ParticipanteDto participante;
-    private Long presupuesto;
-    private Set<JugadorDto> jugadores;
-    private Long puntos;
+	private Integer id;
+	private String nombre;
+	private String descripcion;
+	private Date fechaCreacion;
+	private Integer estado;
+	private ParticipanteDto participante;
+	private Long presupuesto;
+	private Set<JugadorDto> jugadores;
+	private Long puntos;
 
-    public Integer getId() {
-        return id;
-    }
+	public EquipoDto() {
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public EquipoDto(int id) {
+		this.id = id;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
+	public String getDescripcion() {
+		return descripcion;
+	}
 
-    public Integer getEstado() {
-        return estado;
-    }
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
-    public void setEstado(Integer estado) {
-        this.estado = estado;
-    }
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
 
-    public ParticipanteDto getParticipante() {
-        return participante;
-    }
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
 
-    public void setParticipante(ParticipanteDto participante) {
-        this.participante = participante;
-    }
+	public Integer getEstado() {
+		return estado;
+	}
 
-    public Long getPresupuesto() {
-        return presupuesto;
-    }
+	public void setEstado(Integer estado) {
+		this.estado = estado;
+	}
 
-    public void setPresupuesto(Long presupuesto) {
-        this.presupuesto = presupuesto;
-    }
+	public ParticipanteDto getParticipante() {
+		return participante;
+	}
 
-    public Set<JugadorDto> getJugadores() {
-        return jugadores;
-    }
+	public void setParticipante(ParticipanteDto participante) {
+		this.participante = participante;
+	}
 
-    public void setJugadores(Set<JugadorDto> jugadores) {
-        this.jugadores = jugadores;
-    }
+	public Long getPresupuesto() {
+		return presupuesto;
+	}
 
-    public Long getPuntos() {
-        return puntos;
-    }
+	public void setPresupuesto(Long presupuesto) {
+		this.presupuesto = presupuesto;
+	}
 
-    public void setPuntos(Long puntos) {
-        this.puntos = puntos;
-    }
+	public Set<JugadorDto> getJugadores() {
+		return jugadores;
+	}
+
+	public void setJugadores(Set<JugadorDto> jugadores) {
+		this.jugadores = jugadores;
+	}
+
+	public Long getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(Long puntos) {
+		this.puntos = puntos;
+	}
 
 }

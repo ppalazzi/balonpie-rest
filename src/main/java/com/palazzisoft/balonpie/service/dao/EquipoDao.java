@@ -11,4 +11,6 @@ public interface EquipoDao {
 	List<Equipo> getAvailableEquipos();
 
 	Equipo findById(Integer id);
+
+	void mergeEquipo(Equipo equipo);
 }

@@ -61,7 +61,7 @@ public class TorneoController {
 	public ResponseEntity<FixtureDto> startUpTorneo(@PathVariable Integer torneoId) {
 		LOG.info("Generando el fixture para el torneo {}", torneoId);
 
-		FixtureDto fixture = torneoService.getFixtureByTorneo(torneoId);
+		FixtureDto fixture = torneoService.buildFixtureByTorneo(torneoId);
 		if (fixture == null) {
 			return new ResponseEntity<>(NO_CONTENT);
 		}

@@ -2,7 +2,6 @@ package com.palazzisoft.balonpie.service.model;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Optional.of;
-// import static com.google.common.collect.Lists.newArrayList;
 import static javax.persistence.FetchType.LAZY;
 
 import java.io.Serializable;
