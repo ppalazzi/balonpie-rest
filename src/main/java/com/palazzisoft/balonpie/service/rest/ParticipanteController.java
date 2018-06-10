@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.palazzisoft.balonpie.service.dto.ParticipanteDto;
@@ -49,5 +51,16 @@ public class ParticipanteController {
 			LOG.error("Usuario ya existente");
 			return new ResponseEntity<>(NOT_ACCEPTABLE);
 		}
+	}
+		
+	@RequestMapping(value = "/actualizarParticipante", method = POST)
+	public ResponseEntity<ParticipanteDto> actualizarParticipante(@RequestBody ParticipanteDto participanteDto) {
+		try {
+			ParticipanteDto dto = participanteService.actualizarParticipante(participanteDto);
+			return new ResponseEntity<ParticipanteDto>(dto, OK);
+		} catch (BalonpieException e) {
+			LOG.error(e.getMessage());
+			return new ResponseEntity<>(NOT_ACCEPTABLE);
+		}		
 	}
 }

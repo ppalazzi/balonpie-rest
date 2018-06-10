@@ -68,4 +68,11 @@ public class TorneoController {
 
 		return ResponseEntity.status(OK).body(fixture);
 	}
+
+	@RequestMapping(value = "/torneo/nombreValido/{nombre}", method = GET)
+	public ResponseEntity<Boolean> nombreDeTorneoValido(@PathVariable String torneo) {
+		LOG.info("Chequeando nombre del Equipo");				
+		return ResponseEntity.status(OK).body(torneoService.isNameValid(torneo));
+	}
+
 }

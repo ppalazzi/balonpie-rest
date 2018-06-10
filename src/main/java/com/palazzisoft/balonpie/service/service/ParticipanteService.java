@@ -13,4 +13,6 @@ public interface ParticipanteService {
     Participante retrieveParticipante(Integer id);
 
     Optional<ParticipanteDto> getParticipanteByCredentials(String user, String password);
+    
+    ParticipanteDto actualizarParticipante(ParticipanteDto participanteDto) throws BalonpieException;
 }

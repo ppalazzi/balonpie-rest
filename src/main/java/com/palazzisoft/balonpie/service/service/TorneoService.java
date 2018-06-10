@@ -15,4 +15,6 @@ public interface TorneoService {
 	FixtureDto buildFixtureByTorneo(Integer torneoId);
 
 	TorneoDto getTorneoById(Integer id);
+	
+	Boolean isNameValid(String name);
 }

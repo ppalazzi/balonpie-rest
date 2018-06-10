@@ -51,4 +51,9 @@ public class ParticipanteDaoImpl extends AbstractDao implements ParticipanteDao 
 	public void saveParticipante(Participante participante) {
 		persist(participante);
 	}
+
+	@Override
+	public void updateParticipante(Participante participante) {		
+		saveOrUpdate(participante);
+	}
 }

@@ -68,6 +68,12 @@ public class TorneoServiceImpl implements TorneoService {
 
 		List<Torneo> torneos = torneoDao.getTorneosByParticipante(participanteId);
 		List<TorneoDto> torneosDto = newArrayList();
+		
+		torneos.stream().forEach(t -> {
+			TorneoDto dto = mapper.map(t, TorneoDto.class);
+			torneosDto.add(dto);
+		});
+		
 		mapper.map(torneos, torneosDto);
 		return torneosDto;
 	}
@@ -104,6 +110,11 @@ public class TorneoServiceImpl implements TorneoService {
 		return mapper.map(torneo, TorneoDto.class);
 	}
 
+	@Override
+	public Boolean isNameValid(String name) {
+		return torneoDao.isDescripcionAvailable(name);
+	}	
+	
 	private List<Equipo> getAvailableEquiposSortedWithCount(Torneo torneo) {
 		setInitialDataToTorneo(torneo);
 		setInitialDataToEquipo(torneo);
@@ -154,5 +165,4 @@ public class TorneoServiceImpl implements TorneoService {
 			equipo.setEstado(ACTIVO.getEstado());
 		}
 	}
-
 }

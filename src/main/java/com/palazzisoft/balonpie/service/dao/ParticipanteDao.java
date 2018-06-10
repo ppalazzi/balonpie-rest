@@ -13,4 +13,6 @@ public interface ParticipanteDao {
 	Optional<Participante> findParticipanteByEmail(String email);
 	
 	void saveParticipante(Participante participante);
+	
+	void updateParticipante(Participante participante);
 }

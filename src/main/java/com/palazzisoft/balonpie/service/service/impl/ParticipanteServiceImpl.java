@@ -60,4 +60,21 @@ public class ParticipanteServiceImpl implements ParticipanteService {
 				password);
 		return participanteOptional.map(participante -> mapper.map(participante, ParticipanteDto.class));
 	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public ParticipanteDto actualizarParticipante(ParticipanteDto participanteDto) throws BalonpieException {
+		LOG.info("Actualizando Participante");
+		
+		Participante participante = participanteDao.findById(participanteDto.getId());
+		if (participante == null) {
+			LOG.error("Error al actualizar el Participante");
+			throw new BalonpieException("Error al actualizar el Participante");
+		}
+		
+		mapper.map(participanteDto, participante);		
+		participanteDao.updateParticipante(participante);
+		
+		return mapper.map(participante, ParticipanteDto.class);
+	}
 }
