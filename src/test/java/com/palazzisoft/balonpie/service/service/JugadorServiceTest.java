@@ -13,6 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.palazzisoft.balonpie.service.config.RestConfig;
 import com.palazzisoft.balonpie.service.dto.JugadorDto;
+import com.palazzisoft.balonpie.service.dto.TipoJugadorDto;
 import com.palazzisoft.balonpie.service.model.enumeration.EEstado;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,7 +32,11 @@ public class JugadorServiceTest {
         jugador.setHabilidad(7);
         jugador.setNombre("Nombre");
         jugador.setRemate(0);
-        jugador.setTipoJugador(0);
+        
+        TipoJugadorDto tipo = new TipoJugadorDto();
+        tipo.setId(0);
+        
+        jugador.setTipoJugador(tipo);
         jugador.setValor(444);
         jugador.setVelocidad(8);
 

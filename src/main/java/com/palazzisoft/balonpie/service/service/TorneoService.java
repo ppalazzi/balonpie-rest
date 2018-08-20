@@ -17,4 +17,6 @@ public interface TorneoService {
 	TorneoDto getTorneoById(Integer id);
 	
 	Boolean isNameValid(String name);
+
+	TorneoDto removeTournament(Integer torneoId);
 }

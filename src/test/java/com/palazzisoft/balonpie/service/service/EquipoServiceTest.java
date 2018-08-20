@@ -15,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.palazzisoft.balonpie.service.config.RestConfig;
 import com.palazzisoft.balonpie.service.dto.EquipoDto;
 import com.palazzisoft.balonpie.service.dto.JugadorDto;
+import com.palazzisoft.balonpie.service.dto.TipoJugadorDto;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { RestConfig.class })
@@ -31,9 +32,12 @@ public class EquipoServiceTest {
 
 	@Before
 	public void setup() {
+		TipoJugadorDto tipo = new TipoJugadorDto();
+		tipo.setId(0);
+		
 		JugadorDto dto = new JugadorDto();
 		dto.setNombre("carlos");
-		dto.setTipoJugador(0);
+		dto.setTipoJugador(tipo);
 		dto.setValor(1000);
 		jugadorDto = jugadorService.saveJugador(dto);
 	}
@@ -51,9 +55,12 @@ public class EquipoServiceTest {
 
 	@Test
 	public void equiposShouldBeAbleToSwitchPlayers() {
+		TipoJugadorDto tipo = new TipoJugadorDto();
+		tipo.setId(0);
+		
 		JugadorDto auxiliar = new JugadorDto();
 		auxiliar.setNombre("mariano");
-		auxiliar.setTipoJugador(0);
+		auxiliar.setTipoJugador(tipo);
 		jugadorDto = jugadorService.saveJugador(auxiliar);
 
 		EquipoDto equipo = new EquipoDto();
@@ -65,9 +72,12 @@ public class EquipoServiceTest {
 
 	@Test
 	public void equiposShouldChangeJugadoresWhenPriceIsFair() {
+		TipoJugadorDto tipo = new TipoJugadorDto();
+		tipo.setId(0);
+		
 		JugadorDto nuevo = new JugadorDto();
 		nuevo.setNombre("mariano");
-		nuevo.setTipoJugador(0);
+		nuevo.setTipoJugador(tipo);
 		nuevo.setValor(900);
 		nuevo = jugadorService.saveJugador(nuevo);
 

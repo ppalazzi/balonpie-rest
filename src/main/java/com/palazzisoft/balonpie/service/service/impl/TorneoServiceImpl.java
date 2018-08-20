@@ -27,9 +27,11 @@ import com.palazzisoft.balonpie.service.dto.FixtureDto;
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
 import com.palazzisoft.balonpie.service.factory.FixtureFactory;
+import com.palazzisoft.balonpie.service.mapper.EquipoMapper;
 import com.palazzisoft.balonpie.service.model.Equipo;
 import com.palazzisoft.balonpie.service.model.Fixture;
 import com.palazzisoft.balonpie.service.model.Torneo;
+import com.palazzisoft.balonpie.service.model.enumeration.EEstado;
 import com.palazzisoft.balonpie.service.service.TorneoService;
 
 @Service("torneoService")
@@ -50,6 +52,9 @@ public class TorneoServiceImpl implements TorneoService {
 	@Autowired
 	private ModelMapper mapper;
 
+	@Autowired
+	private EquipoMapper equipoMapper;
+	
 	@Value("${cantidad.equipos.por.torneo}")
 	private int cantidadEquiposPorTorneo;
 
@@ -85,6 +90,9 @@ public class TorneoServiceImpl implements TorneoService {
 		LOG.info("Guardando nuevo Torneo {} ", torneoDto);
 
 		Torneo torneo = mapper.map(torneoDto, Torneo.class);
+		Equipo equipoMapped = equipoMapper.map(torneoDto.getEquipos().get(0));
+		torneo.getEquipos().clear();
+		torneo.getEquipos().add(equipoMapped);
 		torneo.getEquipos().addAll(getAvailableEquiposSortedWithCount(torneo));
 
 		equipoDao.saveEquipo(torneo.getEquipos().get(0));
@@ -99,7 +107,10 @@ public class TorneoServiceImpl implements TorneoService {
 		List<Equipo> equipos = torneo.getEquipos();
 
 		Fixture fixture = FixtureFactory.crearFixture(equipos);
+		fixture.setTorneo(torneo);
+		torneo.setFixture(fixture);
 		fixtureDao.saveFixture(fixture);
+		torneoDao.saveTorneo(torneo);
 
 		return mapper.map(fixture, FixtureDto.class);
 	}
@@ -107,13 +118,22 @@ public class TorneoServiceImpl implements TorneoService {
 	@Override
 	public TorneoDto getTorneoById(Integer torneoId) {
 		Torneo torneo = torneoDao.findById(torneoId);
-		return mapper.map(torneo, TorneoDto.class);
+		TorneoDto torneoDto = mapper.map(torneo, TorneoDto.class);
+		return torneoDto;
 	}
 
 	@Override
 	public Boolean isNameValid(String name) {
 		return torneoDao.isDescripcionAvailable(name);
 	}	
+	
+	@Override
+	public TorneoDto removeTournament(Integer torneoId) {
+		Torneo torneo = torneoDao.findById(torneoId);
+		torneo.setEstado(EEstado.INACTIVO.getEstado());
+		torneoDao.saveTorneo(torneo);
+		return mapper.map(torneo, TorneoDto.class);
+	}
 	
 	private List<Equipo> getAvailableEquiposSortedWithCount(Torneo torneo) {
 		setInitialDataToTorneo(torneo);

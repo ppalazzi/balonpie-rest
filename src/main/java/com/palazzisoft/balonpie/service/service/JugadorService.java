@@ -12,4 +12,6 @@ public interface JugadorService {
 	List<Jugador> getJugadorByType(Integer type);
 
 	JugadorDto getJugadoresById(Integer id);
+
+	List<JugadorDto> getJugadorByTypeAndBudget(Integer type, Integer budget);
 }

@@ -42,6 +42,7 @@ public class FixtureFactory {
 		for (int i = 0; i < fechas; i++) {
 			Fecha fecha = new Fecha();
 			fecha.setNumero(i + 1);
+			fecha.setFixture(fixture);
 
 			for (int j = 0; j < primeraLista.size(); j++) {
 				Partido partido = new Partido();

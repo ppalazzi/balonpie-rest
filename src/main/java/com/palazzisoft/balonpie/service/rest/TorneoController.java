@@ -69,10 +69,33 @@ public class TorneoController {
 		return ResponseEntity.status(OK).body(fixture);
 	}
 
-	@RequestMapping(value = "/torneo/nombreValido/{nombre}", method = GET)
-	public ResponseEntity<Boolean> nombreDeTorneoValido(@PathVariable String torneo) {
+	@RequestMapping(value = "/torneo/nombreValido/{name}", method = GET)
+	public ResponseEntity<Boolean> nombreDeTorneoValido(@PathVariable String name) {
 		LOG.info("Chequeando nombre del Equipo");				
-		return ResponseEntity.status(OK).body(torneoService.isNameValid(torneo));
+		return ResponseEntity.status(OK).body(torneoService.isNameValid(name));
 	}
 
+	@RequestMapping(value = "/torneo/remove/{torneoId}", method = GET)
+	public ResponseEntity<TorneoDto> removerTorneo(@PathVariable Integer torneoId) {
+		LOG.info("Removiendo Torneo con id {}", torneoId);
+		
+		TorneoDto torneoDto = torneoService.removeTournament(torneoId);
+		if (torneoDto == null) {
+			return new ResponseEntity<>(NO_CONTENT);
+		}
+		
+		return ResponseEntity.status(OK).body(torneoDto);
+	}
+	
+	@RequestMapping(value = "/torneo/traer/{torneoId}", method = GET)
+	public ResponseEntity<TorneoDto> torneoPorId(@PathVariable Integer torneoId) {
+		LOG.info("Trayendo Torneo por ID {}", torneoId);
+		
+		TorneoDto torneoDto = torneoService.getTorneoById(torneoId);
+		if (torneoDto == null) {
+			return new ResponseEntity<>(NO_CONTENT);
+		}
+		
+		return ResponseEntity.status(OK).body(torneoDto);
+	}
 }

@@ -17,7 +17,7 @@ public class JugadorDto {
 	private Integer fisico;
 	private Integer estado;
 	private Integer valor;
-	private Integer tipoJugador;
+	private TipoJugadorDto tipoJugador;
 
 	public Integer getId() {
 		return id;
@@ -91,12 +91,12 @@ public class JugadorDto {
 		this.valor = valor;
 	}
 
-	public Integer getTipoJugador() {
+	public TipoJugadorDto getTipoJugador() {
 		return tipoJugador;
 	}
 
-	public void setTipoJugador(Integer tipoJugador) {
-		this.tipoJugador = tipoJugador;
+	public void setTipoJugador(TipoJugadorDto tipoJugadorDto) {
+		this.tipoJugador = tipoJugadorDto;
 	}
 
 	public int calculateValor() {

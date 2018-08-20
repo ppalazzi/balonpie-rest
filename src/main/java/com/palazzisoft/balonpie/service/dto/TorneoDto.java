@@ -12,6 +12,7 @@ public class TorneoDto {
 	private String fechaFin;
 	private List<EquipoDto> equipos;
 	private ParticipanteDto participante;
+	private FixtureDto fixture;
 
 	public Integer getId() {
 		return id;
@@ -76,5 +77,15 @@ public class TorneoDto {
 	public void setParticipante(ParticipanteDto participante) {
 		this.participante = participante;
 	}
+
+	public FixtureDto getFixture() {
+		return fixture;
+	}
+
+	public void setFixture(FixtureDto fixture) {
+		this.fixture = fixture;
+	}
+	
+	
 
 }

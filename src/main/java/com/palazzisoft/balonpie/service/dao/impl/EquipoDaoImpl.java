@@ -21,7 +21,7 @@ public class EquipoDaoImpl extends AbstractDao implements EquipoDao {
 	@Override
 	public List<Equipo> getAvailableEquipos() {
 		Query<Equipo> query = getSession().createQuery(
-				"FROM Equipo e where e.estado = 1 and e.participante is null and size(e.torneos) = 0", Equipo.class);
+				"FROM Equipo e where e.estado = 1 and e.participante is null", Equipo.class);
 		return query.getResultList();
 	}
 

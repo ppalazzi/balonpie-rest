@@ -3,6 +3,7 @@ package com.palazzisoft.balonpie.service.service.impl;
 import static com.palazzisoft.balonpie.service.model.enumeration.EEstado.ACTIVO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -20,29 +21,39 @@ import com.palazzisoft.balonpie.service.service.JugadorService;
 @Transactional
 public class JugadorServiceImpl implements JugadorService {
 
-    private Logger LOG = LoggerFactory.getLogger(JugadorServiceImpl.class);
+	private Logger LOG = LoggerFactory.getLogger(JugadorServiceImpl.class);
 
-    @Autowired
-    private JugadorDao jugadorDao;
+	@Autowired
+	private JugadorDao jugadorDao;
 
-    @Autowired
-    private ModelMapper mapper;
+	@Autowired
+	private ModelMapper mapper;
 
-    @Override
-    public JugadorDto saveJugador(JugadorDto jugador) {
-        LOG.info("Guardando jugador con Nombre {} y Apellido {}", jugador.getNombre(), jugador.getApellido());
+	@Override
+	public JugadorDto saveJugador(JugadorDto jugador) {
+		LOG.info("Guardando jugador con Nombre {} y Apellido {}", jugador.getNombre(), jugador.getApellido());
 
-        Jugador jugadorEntity = mapper.map(jugador, Jugador.class);
-        jugadorEntity.setEstado(ACTIVO.getEstado());
-        jugadorDao.crearJugador(jugadorEntity);
-        
-        return mapper.map(jugadorEntity, JugadorDto.class);
-    }
+		Jugador jugadorEntity = mapper.map(jugador, Jugador.class);
+		jugadorEntity.setEstado(ACTIVO.getEstado());
+		jugadorDao.crearJugador(jugadorEntity);
+
+		return mapper.map(jugadorEntity, JugadorDto.class);
+	}
 
 	@Override
 	public List<Jugador> getJugadorByType(Integer type) {
 		LOG.info("Trayendo todos los jugadores del tipo {}", type);
 		return jugadorDao.getJugadoresByType(type);
+	}
+
+	@Override
+	public List<JugadorDto> getJugadorByTypeAndBudget(Integer type, Integer budget) {
+		LOG.info("Trayendo todos los jugadores del tipo {} y con un presupuesto de {}", type, budget);
+		return jugadorDao.getJugadoresByType(type).stream()
+				.filter(j -> j.getValor() < budget)
+				.filter(j -> j.getEstado() == 1)
+				.map(j -> mapper.map(j, JugadorDto.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override

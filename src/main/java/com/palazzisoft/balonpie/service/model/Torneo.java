@@ -151,6 +151,15 @@ public class Torneo implements Serializable {
 		return optionalEquipo;
 	}
 
+	
+	public Fixture getFixture() {
+		return fixture;
+	}
+
+	public void setFixture(Fixture fixture) {
+		this.fixture = fixture;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
