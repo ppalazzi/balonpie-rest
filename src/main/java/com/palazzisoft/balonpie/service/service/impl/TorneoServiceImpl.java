@@ -119,6 +119,10 @@ public class TorneoServiceImpl implements TorneoService {
 	public TorneoDto getTorneoById(Integer torneoId) {
 		Torneo torneo = torneoDao.findById(torneoId);
 		TorneoDto torneoDto = mapper.map(torneo, TorneoDto.class);
+
+		FixtureDto fixtureDto = mapper.map(torneo.getFixture(), FixtureDto.class);
+		torneoDto.setFixture(fixtureDto);
+
 		return torneoDto;
 	}
 
