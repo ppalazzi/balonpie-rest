@@ -45,7 +45,7 @@ public class DatabaseConfig {
 
 	@Bean
 	public DataSource dataSource() throws SQLException {
-		LOG.info("Setting Database Connection");
+		LOG.info("Setting Database Connection" + url + "\n" + password);
 
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(driverClassName);

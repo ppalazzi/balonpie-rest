@@ -6,11 +6,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -26,6 +28,7 @@ import com.palazzisoft.balonpie.service.dto.JugadorDto;
 import com.palazzisoft.balonpie.service.dto.ParticipanteDto;
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
+import com.palazzisoft.balonpie.service.model.Jugador;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { RestConfig.class })
@@ -38,6 +41,9 @@ public class TorneoServiceTest {
 
 	@Autowired
 	private ParticipanteService participanteService;
+
+	@Autowired
+	private JugadorService jugadorService;
 
 	private ParticipanteDto participante;
 
@@ -106,8 +112,7 @@ public class TorneoServiceTest {
 	}
 
 	private List<JugadorDto> buildJugadores() {
-		List<JugadorDto> list = newArrayList();
-		IntStream.range(0, 11).forEach(i -> list.add(new JugadorDto()));
-		return list;
+		List<JugadorDto> jugadores = this.jugadorService.getJugadorByTypeAndBudget(2, Integer.MAX_VALUE);
+		return jugadores.stream().limit(11).collect(Collectors.toList());
 	}
 }
