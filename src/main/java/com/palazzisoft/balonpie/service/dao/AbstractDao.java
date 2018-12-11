@@ -1,31 +1,30 @@
 package com.palazzisoft.balonpie.service.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public class AbstractDao {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	protected Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+    @PersistenceContext
+    protected EntityManager em;
 
 	public void persist(Object entity) {
-		getSession().persist(entity);
+		em.persist(entity);
 	}
 
 	public void delete(Object entity) {
-		getSession().delete(entity);
-	}
+        em.remove(entity);
+    }
 
 	public void saveOrUpdate(Object entity) {
-		getSession().saveOrUpdate(entity);
+		em.merge(entity);
 	}
 
 	public void merge(Object entity) {
-		getSession().merge(entity);
+		em.merge(entity);
 	}
+
+	public EntityManager getEntityManager() {
+	    return em;
+    }
 }

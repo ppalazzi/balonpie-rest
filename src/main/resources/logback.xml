@@ -1,10 +1,10 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/balonpie.log</file>
+        <file>/home/ubuntu/balonpie/log/balonpie.log</file>
 
         <!-- Daily rollover or 100Mb . Keep 7 days history-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${catalina.base}/logs/balonpie.%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>/home/ubuntu/balonpie/log/balonpie.%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>

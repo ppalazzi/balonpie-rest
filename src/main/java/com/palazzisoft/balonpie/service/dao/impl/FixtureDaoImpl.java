@@ -10,20 +10,25 @@ import com.palazzisoft.balonpie.service.dao.FixtureDao;
 import com.palazzisoft.balonpie.service.model.Fixture;
 import com.palazzisoft.balonpie.service.model.Torneo;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+
+import static java.util.Optional.ofNullable;
+
 @Repository("fixtureDao")
 public class FixtureDaoImpl extends AbstractDao implements FixtureDao {
 
 	@Override
 	public void saveFixture(Fixture fixture) {
-		getSession().persist(fixture);
+		em.persist(fixture);
 	}
 
 	@Override
 	public Optional<Fixture> getFixtureByTorneo(Integer torneoId) {
-		Query<Fixture> query = getSession().createQuery("FROM Fixture f where f.torneo.id = :id", Fixture.class);
+		TypedQuery<Fixture> query = em.createQuery("FROM Fixture f where f.torneo.id = :id", Fixture.class);
 		query.setParameter("id", torneoId);
 
-		return query.uniqueResultOptional();
+		return ofNullable(query.getSingleResult());
 	}
 
 }

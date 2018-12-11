@@ -1,11 +1,11 @@
 package com.palazzisoft.balonpie.service.service.impl;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.palazzisoft.balonpie.service.model.enumeration.EEstado.ACTIVO;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Collections.shuffle;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
-import static jersey.repackaged.com.google.common.collect.Lists.newArrayList;
 
 import java.util.Calendar;
 import java.util.List;
