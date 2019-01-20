@@ -38,155 +38,157 @@ import com.palazzisoft.balonpie.service.service.TorneoService;
 @Transactional
 public class TorneoServiceImpl implements TorneoService {
 
-	private Logger LOG = LoggerFactory.getLogger(TorneoServiceImpl.class);
+    private Logger LOG = LoggerFactory.getLogger(TorneoServiceImpl.class);
 
-	@Autowired
-	private TorneoDao torneoDao;
+    @Autowired
+    private TorneoDao torneoDao;
 
-	@Autowired
-	private EquipoDao equipoDao;
+    @Autowired
+    private EquipoDao equipoDao;
 
-	@Autowired
-	private FixtureDao fixtureDao;
+    @Autowired
+    private FixtureDao fixtureDao;
 
-	@Autowired
-	private ModelMapper mapper;
+    @Autowired
+    private ModelMapper mapper;
 
-	@Autowired
-	private EquipoMapper equipoMapper;
-	
-	@Value("${cantidad.equipos.por.torneo}")
-	private int cantidadEquiposPorTorneo;
+    @Autowired
+    private EquipoMapper equipoMapper;
 
-	@Value("${cantidad.jugadores.equipos}")
-	private int amountJugadoresByEquipo;
+    @Value("${cantidad.equipos.por.torneo}")
+    private int cantidadEquiposPorTorneo;
 
-	@Value("${equipo.presupuesto.inicial}")
-	private Long amountInitialBudget;
+    @Value("${cantidad.jugadores.equipos}")
+    private int amountJugadoresByEquipo;
 
-	@Value("${equipo.puntos.inicial}")
-	private Long amountInitialPoints;
+    @Value("${equipo.presupuesto.inicial}")
+    private Long amountInitialBudget;
 
-	@Override
-	public List<TorneoDto> getTorneosByParticipante(Integer participanteId) {
-		LOG.info("Obteniendo torneos de participante {}", participanteId);
+    @Value("${equipo.puntos.inicial}")
+    private Long amountInitialPoints;
 
-		List<Torneo> torneos = torneoDao.getTorneosByParticipante(participanteId);
-		List<TorneoDto> torneosDto = newArrayList();
-		
-		torneos.stream().forEach(t -> {
-			TorneoDto dto = mapper.map(t, TorneoDto.class);
-			torneosDto.add(dto);
-		});
-		
-		mapper.map(torneos, torneosDto);
-		return torneosDto;
-	}
+    @Override
+    public List<TorneoDto> getTorneosByParticipante(Integer participanteId) {
+        LOG.info("Obteniendo torneos de participante {}", participanteId);
 
-	@Override
-	public TorneoDto createTorneo(TorneoDto torneoDto) throws BalonpieException {
-		validateNewTorneo(torneoDto);
+        List<Torneo> torneos = torneoDao.getTorneosByParticipante(participanteId);
+        List<TorneoDto> torneosDto = newArrayList();
 
-		LOG.info("Guardando nuevo Torneo {} ", torneoDto);
+        torneos.stream().forEach(t -> {
+            TorneoDto dto = mapper.map(t, TorneoDto.class);
+            torneosDto.add(dto);
+        });
 
-		Torneo torneo = mapper.map(torneoDto, Torneo.class);
-		Equipo equipoMapped = equipoMapper.map(torneoDto.getEquipos().get(0));
-		torneo.getEquipos().clear();
-		torneo.getEquipos().add(equipoMapped);
-		torneo.getEquipos().addAll(getAvailableEquiposSortedWithCount(torneo));
+        mapper.map(torneos, torneosDto);
+        return torneosDto;
+    }
 
-		equipoDao.saveEquipo(torneo.getEquipos().get(0));
-		torneoDao.saveTorneo(torneo);
+    @Override
+    public TorneoDto createTorneo(TorneoDto torneoDto) throws BalonpieException {
+        validateNewTorneo(torneoDto);
 
-		return mapper.map(torneo, TorneoDto.class);
-	}
+        LOG.info("Guardando nuevo Torneo {} ", torneoDto);
 
-	@Override
-	public FixtureDto buildFixtureByTorneo(Integer torneoId) {
-		Torneo torneo = this.torneoDao.findById(torneoId);
-		List<Equipo> equipos = torneo.getEquipos();
+        Torneo torneo = mapper.map(torneoDto, Torneo.class);
+        Equipo equipoMapped = equipoMapper.map(torneoDto.getEquipos().get(0));
+        torneo.getEquipos().clear();
+        torneo.getEquipos().add(equipoMapped);
+        torneo.getEquipos().addAll(getAvailableEquiposSortedWithCount(torneo));
 
-		Fixture fixture = FixtureFactory.crearFixture(equipos);
-		fixture.setTorneo(torneo);
-		torneo.setFixture(fixture);
-		fixtureDao.saveFixture(fixture);
-		torneoDao.saveTorneo(torneo);
+        equipoDao.saveEquipo(torneo.getEquipos().get(0));
+        torneoDao.saveTorneo(torneo);
 
-		return mapper.map(fixture, FixtureDto.class);
-	}
+        return mapper.map(torneo, TorneoDto.class);
+    }
 
-	@Override
-	public TorneoDto getTorneoById(Integer torneoId) {
-		Torneo torneo = torneoDao.findById(torneoId);
-		TorneoDto torneoDto = mapper.map(torneo, TorneoDto.class);
+    @Override
+    public FixtureDto buildFixtureByTorneo(Integer torneoId) {
+        Torneo torneo = this.torneoDao.findById(torneoId);
+        List<Equipo> equipos = torneo.getEquipos();
 
-		FixtureDto fixtureDto = mapper.map(torneo.getFixture(), FixtureDto.class);
-		torneoDto.setFixture(fixtureDto);
+        Fixture fixture = FixtureFactory.crearFixture(equipos);
+        fixture.setTorneo(torneo);
+        torneo.setFixture(fixture);
+        fixtureDao.saveFixture(fixture);
+        torneoDao.saveTorneo(torneo);
 
-		return torneoDto;
-	}
+        return mapper.map(fixture, FixtureDto.class);
+    }
 
-	@Override
-	public Boolean isNameValid(String name) {
-		return torneoDao.isDescripcionAvailable(name);
-	}	
-	
-	@Override
-	public TorneoDto removeTournament(Integer torneoId) {
-		Torneo torneo = torneoDao.findById(torneoId);
-		torneo.setEstado(EEstado.INACTIVO.getEstado());
-		torneoDao.saveTorneo(torneo);
-		return mapper.map(torneo, TorneoDto.class);
-	}
-	
-	private List<Equipo> getAvailableEquiposSortedWithCount(Torneo torneo) {
-		setInitialDataToTorneo(torneo);
-		setInitialDataToEquipo(torneo);
-		List<Equipo> equipos = this.equipoDao.getAvailableEquipos();
+    @Override
+    public TorneoDto getTorneoById(Integer torneoId) {
+        Torneo torneo = torneoDao.findById(torneoId);
+        TorneoDto torneoDto = mapper.map(torneo, TorneoDto.class);
 
-		shuffle(equipos, new Random(currentTimeMillis()));
+        if (torneo.getFixture() != null) {
+            FixtureDto fixtureDto = mapper.map(torneo.getFixture(), FixtureDto.class);
+            torneoDto.setFixture(fixtureDto);
+        }
 
-		return equipos.stream().limit(cantidadEquiposPorTorneo - torneo.getEquipos().size()).collect(toList());
-	}
+        return torneoDto;
+    }
 
-	private void validateNewTorneo(TorneoDto torneo) throws BalonpieException {
-		Optional<String> message = Optional.empty();
+    @Override
+    public Boolean isNameValid(String name) {
+        return torneoDao.isDescripcionAvailable(name);
+    }
 
-		if (torneoDao.isDescripcionAvailable(torneo.getDescripcion())) {
-			message = of("Ya existe un Torneo con esa descripción");
-		}
-		if (torneo.getEquipos() == null) {
-			message = of("El Torneo debe tener al menos un Equipo principal");
-		}
-		if (torneo.getEquipos() != null
-				&& torneo.getEquipos().get(0).getJugadores().size() != amountJugadoresByEquipo) {
-			message = of("El equipo no cuenta con la cantidad de jugadores predeterminada");
-		}
+    @Override
+    public TorneoDto removeTournament(Integer torneoId) {
+        Torneo torneo = torneoDao.findById(torneoId);
+        torneo.setEstado(EEstado.INACTIVO.getEstado());
+        torneoDao.saveTorneo(torneo);
+        return mapper.map(torneo, TorneoDto.class);
+    }
 
-		if (message.isPresent()) {
-			throw new BalonpieException(message.get());
-		}
-	}
+    private List<Equipo> getAvailableEquiposSortedWithCount(Torneo torneo) {
+        setInitialDataToTorneo(torneo);
+        setInitialDataToEquipo(torneo);
+        List<Equipo> equipos = this.equipoDao.getAvailableEquipos();
 
-	private void setInitialDataToTorneo(Torneo torneo) {
-		torneo.setEstado(ACTIVO.getEstado());
+        shuffle(equipos, new Random(currentTimeMillis()));
 
-		Calendar calendar = Calendar.getInstance();
-		torneo.setFechaCreacion(calendar.getTime());
-		torneo.setFechaInicio(torneo.getFechaCreacion());
-		calendar.add(Calendar.DATE, 30);
-		torneo.setFechaFin(calendar.getTime());
-	}
+        return equipos.stream().limit(cantidadEquiposPorTorneo - torneo.getEquipos().size()).collect(toList());
+    }
 
-	private void setInitialDataToEquipo(Torneo torneo) {
-		Optional<Equipo> equipoOptional = torneo.getMainEquipo();
+    private void validateNewTorneo(TorneoDto torneo) throws BalonpieException {
+        Optional<String> message = Optional.empty();
 
-		if (equipoOptional.isPresent()) {
-			Equipo equipo = equipoOptional.get();
-			equipo.setPresupuesto(amountInitialBudget);
-			equipo.setPuntos(amountInitialPoints);
-			equipo.setFechaCreacion(torneo.getFechaCreacion());
-			equipo.setEstado(ACTIVO.getEstado());
-		}
-	}
+        if (torneoDao.isDescripcionAvailable(torneo.getDescripcion())) {
+            message = of("Ya existe un Torneo con esa descripción");
+        }
+        if (torneo.getEquipos() == null) {
+            message = of("El Torneo debe tener al menos un Equipo principal");
+        }
+        if (torneo.getEquipos() != null
+                && torneo.getEquipos().get(0).getJugadores().size() != amountJugadoresByEquipo) {
+            message = of("El equipo no cuenta con la cantidad de jugadores predeterminada");
+        }
+
+        if (message.isPresent()) {
+            throw new BalonpieException(message.get());
+        }
+    }
+
+    private void setInitialDataToTorneo(Torneo torneo) {
+        torneo.setEstado(ACTIVO.getEstado());
+
+        Calendar calendar = Calendar.getInstance();
+        torneo.setFechaCreacion(calendar.getTime());
+        torneo.setFechaInicio(torneo.getFechaCreacion());
+        calendar.add(Calendar.DATE, 30);
+        torneo.setFechaFin(calendar.getTime());
+    }
+
+    private void setInitialDataToEquipo(Torneo torneo) {
+        Optional<Equipo> equipoOptional = torneo.getMainEquipo();
+
+        if (equipoOptional.isPresent()) {
+            Equipo equipo = equipoOptional.get();
+            equipo.setPresupuesto(amountInitialBudget);
+            equipo.setPuntos(amountInitialPoints);
+            equipo.setFechaCreacion(torneo.getFechaCreacion());
+            equipo.setEstado(ACTIVO.getEstado());
+        }
+    }
 }
