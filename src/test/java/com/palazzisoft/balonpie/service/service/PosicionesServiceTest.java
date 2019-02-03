@@ -31,7 +31,7 @@ public class PosicionesServiceTest {
 	@Test
 	public void testPosicionesByfixture() {
 		List<EquiposEstadisticasDto> posiciones = this.posicionesService
-				.getPosicionesByFixture(buildFixtureDto());
+				.getPosicionesByFixture(null);
 		assertTrue(!posiciones.isEmpty());
 	}
 

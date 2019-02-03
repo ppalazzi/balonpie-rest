@@ -1,9 +1,10 @@
 package com.palazzisoft.balonpie.service.dto;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
-public class EquipoDto {
+public class EquipoDto implements Comparable<EquipoDto> {
 
 	private Integer id;
 	private String nombre;
@@ -95,4 +96,24 @@ public class EquipoDto {
 		this.puntos = puntos;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		EquipoDto equipoDto = (EquipoDto) o;
+		return Objects.equals(id, equipoDto.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects
+				.hash(id, nombre, descripcion, fechaCreacion, estado, participante, presupuesto, jugadores, puntos);
+	}
+
+    @Override
+    public int compareTo(EquipoDto o) {
+        return o.getId().compareTo(this.getId());
+    }
 }

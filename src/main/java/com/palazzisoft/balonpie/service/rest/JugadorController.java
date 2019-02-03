@@ -36,7 +36,7 @@ public class JugadorController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
-		return new ResponseEntity<List<JugadorDto>>(jugadores, OK);
+		return new ResponseEntity<>(jugadores, OK);
 	}
 	
 }

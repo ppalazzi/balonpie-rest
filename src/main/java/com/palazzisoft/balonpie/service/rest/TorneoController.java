@@ -40,7 +40,7 @@ public class TorneoController {
 			return new ResponseEntity<>(NO_CONTENT);
 		}
 
-		return new ResponseEntity<List<TorneoDto>>(torneos, OK);
+		return new ResponseEntity<>(torneos, OK);
 	}
 
 	@RequestMapping(value = "/crearTorneo", method = POST)

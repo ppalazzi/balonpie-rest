@@ -1,12 +1,14 @@
 package com.palazzisoft.balonpie.service.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Maps.newHashMap;
 import static java.util.Comparator.comparing;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,17 +17,25 @@ import com.palazzisoft.balonpie.service.dto.EquiposEstadisticasDto;
 import com.palazzisoft.balonpie.service.dto.FechaDto;
 import com.palazzisoft.balonpie.service.dto.FixtureDto;
 import com.palazzisoft.balonpie.service.dto.PartidoDto;
+import com.palazzisoft.balonpie.service.model.Fixture;
 import com.palazzisoft.balonpie.service.service.PosicionesService;
 
 @Service("posicionesService")
 @Transactional
 public class PosicionesServiceImpl implements PosicionesService {
 
-	private Map<EquipoDto, EquiposEstadisticasDto> mapsEquiposPuntos = newHashMap();
+	private Map<EquipoDto, EquiposEstadisticasDto> mapsEquiposPuntos;
+
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
-	public List<EquiposEstadisticasDto> getPosicionesByFixture(FixtureDto fixture) {
-		for (FechaDto fechas : fixture.getFechas()) {
+	public List<EquiposEstadisticasDto> getPosicionesByFixture(Fixture fixture) {
+        mapsEquiposPuntos = new TreeMap<>();
+
+	    FixtureDto fixtureDto = mapper.map(fixture, FixtureDto.class);
+
+		for (FechaDto fechas : fixtureDto.getFechas()) {
 			for (PartidoDto partido : fechas.getPartidos()) {
 				if (partido.isJugado()) {
 					addPointsToMap(partido);
@@ -36,7 +46,7 @@ public class PosicionesServiceImpl implements PosicionesService {
 		List<EquiposEstadisticasDto> estadisticas = newArrayList(mapsEquiposPuntos.values());		
 		
 		estadisticas.sort(comparing(EquiposEstadisticasDto::getPuntos)
-				.thenComparing(EquiposEstadisticasDto::getGolesAFavor));
+				.thenComparing(EquiposEstadisticasDto::getGolesAFavor).reversed());
 
 		return estadisticas;
 	}

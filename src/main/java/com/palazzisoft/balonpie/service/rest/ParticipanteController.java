@@ -39,14 +39,14 @@ public class ParticipanteController {
 			return new ResponseEntity<>(NOT_FOUND);
 		}
 
-		return new ResponseEntity<ParticipanteDto>(participante.get(), OK);
+		return new ResponseEntity<>(participante.get(), OK);
 	}
 
 	@RequestMapping(value = "/crearParticipante", method = POST)
 	public ResponseEntity<ParticipanteDto> registrarParticipante(@RequestBody ParticipanteDto participanteDto) {
 		try {
 			ParticipanteDto dto = participanteService.saveParticipante(participanteDto);
-			return new ResponseEntity<ParticipanteDto>(dto, OK);
+			return new ResponseEntity<>(dto, OK);
 		} catch (BalonpieException e) {
 			LOG.error("Usuario ya existente");
 			return new ResponseEntity<>(NOT_ACCEPTABLE);
@@ -57,7 +57,7 @@ public class ParticipanteController {
 	public ResponseEntity<ParticipanteDto> actualizarParticipante(@RequestBody ParticipanteDto participanteDto) {
 		try {
 			ParticipanteDto dto = participanteService.actualizarParticipante(participanteDto);
-			return new ResponseEntity<ParticipanteDto>(dto, OK);
+			return new ResponseEntity<>(dto, OK);
 		} catch (BalonpieException e) {
 			LOG.error(e.getMessage());
 			return new ResponseEntity<>(NOT_ACCEPTABLE);
