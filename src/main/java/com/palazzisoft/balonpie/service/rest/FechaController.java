@@ -36,7 +36,7 @@ public class FechaController {
 
 		try {
 			FechaDto fechaReturned = fechaService.jugarFecha(fechaDto);
-			return new ResponseEntity<FechaDto>(fechaReturned, HttpStatus.OK);
+			return new ResponseEntity<>(fechaReturned, HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Ocurrio un problema al jugar la fecha");
 			return new ResponseEntity<>(NOT_ACCEPTABLE);

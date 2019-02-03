@@ -7,6 +7,8 @@ import static java.util.Comparator.comparing;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import com.palazzisoft.balonpie.service.dto.EquiposEstadisticasDto;
 import com.palazzisoft.balonpie.service.dto.FechaDto;
 import com.palazzisoft.balonpie.service.dto.FixtureDto;
 import com.palazzisoft.balonpie.service.dto.PartidoDto;
+import com.palazzisoft.balonpie.service.model.Fixture;
 import com.palazzisoft.balonpie.service.service.PosicionesService;
 
 @Service("posicionesService")
@@ -23,9 +26,14 @@ public class PosicionesServiceImpl implements PosicionesService {
 
 	private Map<EquipoDto, EquiposEstadisticasDto> mapsEquiposPuntos = newHashMap();
 
+	@Autowired
+	private ModelMapper mapper;
+
 	@Override
-	public List<EquiposEstadisticasDto> getPosicionesByFixture(FixtureDto fixture) {
-		for (FechaDto fechas : fixture.getFechas()) {
+	public List<EquiposEstadisticasDto> getPosicionesByFixture(Fixture fixture) {
+		FixtureDto fixtureDto = mapper.map(fixture, FixtureDto.class);
+
+		for (FechaDto fechas : fixtureDto.getFechas()) {
 			for (PartidoDto partido : fechas.getPartidos()) {
 				if (partido.isJugado()) {
 					addPointsToMap(partido);
