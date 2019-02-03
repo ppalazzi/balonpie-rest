@@ -16,6 +16,7 @@ import com.palazzisoft.balonpie.service.model.Partido;
  * @author ppalazzi
  *
  */
+@Deprecated
 public class FixtureFactory {
 
 	public static Fixture crearFixture(final List<Equipo> equipos) {

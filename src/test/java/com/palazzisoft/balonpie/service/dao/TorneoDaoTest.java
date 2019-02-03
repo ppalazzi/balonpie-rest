@@ -20,7 +20,7 @@ import com.palazzisoft.balonpie.service.model.Participante;
 import com.palazzisoft.balonpie.service.model.Torneo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { DatabaseConfig.class, RestConfig.class })
+//@ContextConfiguration(classes = { DatabaseConfig.class, RestConfig.class })
 @WebAppConfiguration
 @Transactional
 public class TorneoDaoTest {

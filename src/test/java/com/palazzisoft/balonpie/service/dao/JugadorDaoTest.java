@@ -26,7 +26,7 @@ import com.palazzisoft.balonpie.service.model.Jugador;
 import com.palazzisoft.balonpie.service.model.TipoJugador;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { DatabaseConfig.class, RestConfig.class })
+//@ContextConfiguration(classes = { DatabaseConfig.class, RestConfig.class })
 @WebAppConfiguration
 @Transactional
 public class JugadorDaoTest {

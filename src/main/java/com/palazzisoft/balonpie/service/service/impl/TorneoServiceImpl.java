@@ -26,7 +26,7 @@ import com.palazzisoft.balonpie.service.dao.TorneoDao;
 import com.palazzisoft.balonpie.service.dto.FixtureDto;
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
-import com.palazzisoft.balonpie.service.factory.FixtureFactory;
+import com.palazzisoft.balonpie.service.factory.FixtureGenerator;
 import com.palazzisoft.balonpie.service.mapper.EquipoMapper;
 import com.palazzisoft.balonpie.service.model.Equipo;
 import com.palazzisoft.balonpie.service.model.Fixture;
@@ -106,7 +106,8 @@ public class TorneoServiceImpl implements TorneoService {
         Torneo torneo = this.torneoDao.findById(torneoId);
         List<Equipo> equipos = torneo.getEquipos();
 
-        Fixture fixture = FixtureFactory.crearFixture(equipos);
+        FixtureGenerator fixtureGenerator = new FixtureGenerator();
+        Fixture fixture = fixtureGenerator.crearFixture(equipos);
         fixture.setTorneo(torneo);
         torneo.setFixture(fixture);
         fixtureDao.saveFixture(fixture);
