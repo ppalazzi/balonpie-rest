@@ -23,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.palazzisoft.balonpie.service.dao.EquipoDao;
 import com.palazzisoft.balonpie.service.dao.FixtureDao;
 import com.palazzisoft.balonpie.service.dao.TorneoDao;
+import com.palazzisoft.balonpie.service.dto.EquipoDto;
 import com.palazzisoft.balonpie.service.dto.FixtureDto;
+import com.palazzisoft.balonpie.service.dto.JugadorDto;
 import com.palazzisoft.balonpie.service.dto.TorneoDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
 import com.palazzisoft.balonpie.service.factory.FixtureGenerator;
@@ -76,6 +78,16 @@ public class TorneoServiceImpl implements TorneoService {
 
         torneos.stream().forEach(t -> {
             TorneoDto dto = mapper.map(t, TorneoDto.class);
+
+            dto.getEquipos().clear();
+            t.getEquipos().stream().forEach(c -> {
+                EquipoDto equipoDto = mapper.map(c, EquipoDto.class);
+
+                mapJugadores(equipoDto, c);
+
+                dto.getEquipos().add(equipoDto);
+            });
+
             torneosDto.add(dto);
         });
 
@@ -140,6 +152,15 @@ public class TorneoServiceImpl implements TorneoService {
         torneo.setEstado(EEstado.INACTIVO.getEstado());
         torneoDao.saveTorneo(torneo);
         return mapper.map(torneo, TorneoDto.class);
+    }
+
+    private void mapJugadores(EquipoDto equipoDto, Equipo equipo) {
+        equipoDto.getJugadores().clear();
+
+        equipo.getEquipoJugadores().forEach(ej -> {
+            JugadorDto jugadorDto = mapper.map(ej.getJugador(), JugadorDto.class);
+            equipoDto.getJugadores().add(jugadorDto);
+        });
     }
 
     private List<Equipo> getAvailableEquiposSortedWithCount(Torneo torneo) {

@@ -2,6 +2,7 @@ package com.palazzisoft.balonpie.service.rest;
 
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.slf4j.Logger;
@@ -43,14 +44,14 @@ public class FechaController {
 		}
 	}
 
-	@RequestMapping(value = "/fecha/cambiarJugador/{equipoId}/{originalId}/{nuevoId}", method = POST)
+	@RequestMapping(value = "/fecha/cambiarJugador/{equipoId}/{originalId}/{nuevoId}", method = GET)
 	public ResponseEntity<EquipoDto> cambiarJugador(final @PathVariable Integer equipoId,
 			@PathVariable Integer originalId, @PathVariable Integer nuevoId) {
-		LOG.info("Cambiando Jugador de equipo {}", equipoId);
+		LOG.info("Cambiando Jugador {} por {}  de equipo {}", originalId, nuevoId, equipoId);
 
 		try {
 			EquipoDto equipoDto = equipoService.replaceJugador(equipoId, originalId, nuevoId);
-			return new ResponseEntity<EquipoDto>(equipoDto, HttpStatus.OK);
+			return new ResponseEntity<>(equipoDto, HttpStatus.OK);
 		} catch (IllegalArgumentException e) {
 			LOG.debug("No se pudo cambiar el jugador");
 			return new ResponseEntity<>(NO_CONTENT);
