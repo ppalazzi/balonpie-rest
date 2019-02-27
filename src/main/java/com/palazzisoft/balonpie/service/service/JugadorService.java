@@ -9,6 +9,8 @@ public interface JugadorService {
 
 	JugadorDto saveJugador(JugadorDto jugador);
 
+	JugadorDto actualizarJugador(JugadorDto jugadorDto);
+
 	List<Jugador> getJugadorByType(Integer type);
 
 	JugadorDto getJugadoresById(Integer id);

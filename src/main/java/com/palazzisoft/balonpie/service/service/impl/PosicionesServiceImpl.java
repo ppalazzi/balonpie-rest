@@ -82,8 +82,13 @@ public class PosicionesServiceImpl implements PosicionesService {
 			EquiposEstadisticasDto estadisticasLocal = getEquipoFromSource(partido.getLocal());
 			EquiposEstadisticasDto estadisticasVisitante = getEquipoFromSource(partido.getVisitante());
 
+			estadisticasLocal.setGolesAFavor(partido.getGolesLocal());
+			estadisticasLocal.setGolesRecibidos(partido.getGolesVisitante());
 			estadisticasLocal.agregarEmpate();
+
 			estadisticasVisitante.agregarEmpate();
+            estadisticasVisitante.setGolesAFavor(partido.getGolesVisitante());
+            estadisticasVisitante.setGolesRecibidos(partido.getGolesLocal());
 
 			mapsEquiposPuntos.put(partido.getVisitante(), estadisticasVisitante);
 			mapsEquiposPuntos.put(partido.getLocal(), estadisticasLocal);

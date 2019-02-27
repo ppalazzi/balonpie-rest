@@ -21,6 +21,11 @@ public class JugadorDaoImpl extends AbstractDao implements JugadorDao {
 	}
 
 	@Override
+	public void update(Jugador jugador) {
+		this.saveOrUpdate(jugador);
+	}
+
+	@Override
 	public List<Jugador> getJugadoresByType(final Integer type) {
 		TypedQuery<Jugador> query = em.createQuery(
 				"FROM Jugador where tipoJugador.id = :tipoJugador and estado = 1"

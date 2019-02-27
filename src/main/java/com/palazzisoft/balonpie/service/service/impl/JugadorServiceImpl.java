@@ -41,6 +41,30 @@ public class JugadorServiceImpl implements JugadorService {
 	}
 
 	@Override
+	public JugadorDto actualizarJugador(JugadorDto jugadorDto) {
+		LOG.info("Actualizando Jugador con id {}", jugadorDto.getId());
+
+		try {
+
+            Jugador jugador = this.jugadorDao.findById(jugadorDto.getId());
+            jugador.setNombre(jugadorDto.getNombre());
+            jugador.setApellido(jugadorDto.getApellido());
+            jugador.setFisico(jugadorDto.getFisico());
+            jugador.setHabilidad(jugadorDto.getHabilidad());
+            jugador.setRemate(jugadorDto.getRemate());
+            jugador.setValor(jugadorDto.getValor());
+            jugador.setVelocidad(jugadorDto.getVelocidad());
+            jugadorDao.update(jugador);
+
+            return mapper.map(jugador, JugadorDto.class);
+        }
+        catch (Exception e) {
+		    LOG.error("Error actualizando Jugador", e);
+		    return null;
+        }
+	}
+
+	@Override
 	public List<Jugador> getJugadorByType(Integer type) {
 		LOG.info("Trayendo todos los jugadores del tipo {}", type);
 		return jugadorDao.getJugadoresByType(type);

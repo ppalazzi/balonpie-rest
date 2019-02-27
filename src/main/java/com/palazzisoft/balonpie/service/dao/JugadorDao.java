@@ -11,4 +11,6 @@ public interface JugadorDao {
 	List<Jugador> getJugadoresByType(Integer type);
 
 	Jugador findById(Integer id);
+
+	void update(Jugador jugador);
 }

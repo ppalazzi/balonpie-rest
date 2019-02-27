@@ -77,4 +77,18 @@ public class ParticipanteServiceImpl implements ParticipanteService {
 		
 		return mapper.map(participante, ParticipanteDto.class);
 	}
+
+	@Override
+    @Transactional
+    public Optional<ParticipanteDto> getParticipantePorEmail(String email) throws BalonpieException {
+		LOG.info("Trayendo Participante por email " + email);
+
+		Optional<Participante> participante = participanteDao.findParticipanteByEmail(email);
+		if (participante.isPresent()) {
+			return Optional.ofNullable(mapper.map(participante.get(), ParticipanteDto.class));
+		}
+
+		LOG.error("Error al traer el Participante por email");
+		return Optional.empty();
+	}
 }

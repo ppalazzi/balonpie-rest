@@ -31,7 +31,8 @@ public class ParticipanteDaoImpl extends AbstractDao implements ParticipanteDao 
 
 			Predicate userNamePredicate = builder.equal(root.get("email"), user);
 			Predicate passwordPredicate = builder.equal(root.get("password"), pass);
-			Predicate wherePredicate = builder.and(userNamePredicate, passwordPredicate);
+			Predicate estadoPredicate = builder.equal(root.get("estado"), 1);
+			Predicate wherePredicate = builder.and(userNamePredicate, passwordPredicate, estadoPredicate);
 
 			query.select(root).where(wherePredicate);
 
@@ -51,7 +52,7 @@ public class ParticipanteDaoImpl extends AbstractDao implements ParticipanteDao 
 
 			return Optional.ofNullable(query.getSingleResult());
 		}
-		catch(NoResultException e) {
+		catch (Exception e) {
 			return Optional.empty();
 		}
 	}

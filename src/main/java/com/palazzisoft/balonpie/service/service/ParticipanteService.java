@@ -15,4 +15,6 @@ public interface ParticipanteService {
     Optional<ParticipanteDto> getParticipanteByCredentials(String user, String password);
     
     ParticipanteDto actualizarParticipante(ParticipanteDto participanteDto) throws BalonpieException;
+
+    Optional<ParticipanteDto> getParticipantePorEmail(String email) throws BalonpieException;
 }

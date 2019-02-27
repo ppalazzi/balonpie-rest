@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.palazzisoft.balonpie.service.dto.ParticipanteDto;
 import com.palazzisoft.balonpie.service.exception.BalonpieException;
 import com.palazzisoft.balonpie.service.service.ParticipanteService;
+import sun.rmi.runtime.Log;
 
 @RestController
 public class ParticipanteController {
@@ -35,6 +37,18 @@ public class ParticipanteController {
 	public ResponseEntity<ParticipanteDto> login(@PathVariable String email, @PathVariable String password) {
 		Optional<ParticipanteDto> participante = participanteService
 				.getParticipanteByCredentials(email, password);
+		if (!participante.isPresent()) {
+			return new ResponseEntity<>(NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(participante.get(), OK);
+	}
+
+	@RequestMapping(value = "/participante", method = GET)
+	public ResponseEntity<ParticipanteDto> traerPorEmail(@RequestParam String user) throws BalonpieException {
+        LOG.info("Email : " + user);
+		Optional<ParticipanteDto> participante = participanteService.getParticipantePorEmail(user);
+
 		if (!participante.isPresent()) {
 			return new ResponseEntity<>(NOT_FOUND);
 		}
