@@ -65,7 +65,12 @@ public class ParticipanteServiceImpl implements ParticipanteService {
 	@Transactional(readOnly = false)
 	public ParticipanteDto actualizarParticipante(ParticipanteDto participanteDto) throws BalonpieException {
 		LOG.info("Actualizando Participante");
-		
+
+		if (getParticipantePorEmail(participanteDto.getEmail()).isPresent()) {
+			LOG.error("Email ya Registrado");
+			throw new BalonpieException("Email ya Registrado");
+		}
+
 		Participante participante = participanteDao.findById(participanteDto.getId());
 		if (participante == null) {
 			LOG.error("Error al actualizar el Participante");
