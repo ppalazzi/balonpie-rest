@@ -66,7 +66,8 @@ public class ParticipanteServiceImpl implements ParticipanteService {
 	public ParticipanteDto actualizarParticipante(ParticipanteDto participanteDto) throws BalonpieException {
 		LOG.info("Actualizando Participante");
 
-		if (getParticipantePorEmail(participanteDto.getEmail()).isPresent()) {
+		Optional<ParticipanteDto> participantePorEMil = getParticipantePorEmail(participanteDto.getEmail());
+		if (participantePorEMil.isPresent() && !participantePorEMil.get().getId().equals(participanteDto.getId())) {
 			LOG.error("Email ya Registrado");
 			throw new BalonpieException("Email ya Registrado");
 		}
